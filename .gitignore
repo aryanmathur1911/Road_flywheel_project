@@ -1,0 +1,17 @@
+# Ignore common image file types
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.bmp
+*.tiff
+*.webp
+*.svg
+*.ico
+kaggle.json
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.git
+*.ipynb_checkpoints
