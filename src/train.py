@@ -9,6 +9,7 @@ import numpy as np
 from pathlib import Path
 import albumentations as A
 from albumentations.pytorch import ToTensorV2
+from dataset import apply_shadow_eraser, get_texture_map
 
 # 1. Configuration
 DATA_DIR = Path("data/processed")
@@ -30,22 +31,15 @@ class ShadowProofDataset(Dataset):
     def __len__(self):
         return len(self.dataset)
 
-    def apply_clahe(self, image):
-        # Convert to LAB to equalize lighting (Shadow Eraser)
-        lab = cv2.cvtColor(image, cv2.COLOR_RGB2LAB)
-        l, a, b = cv2.split(lab)
-        clahe = cv2.createCLAHE(clipLimit=3.0, tileGridSize=(8,8))
-        cl = clahe.apply(l)
-        limg = cv2.merge((cl, a, b))
-        return cv2.cvtColor(limg, cv2.COLOR_LAB2RGB)
-
     def __getitem__(self, idx):
         path, label = self.dataset.samples[idx]
         image = cv2.imread(path)
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         
         # Apply Shadow Eraser first
-        image = self.apply_clahe(image)
+        image = apply_shadow_eraser(image)
+        # Apply Texture Enhancement to highlight roughness patterns
+        image = get_texture_map(image)
 
         if self.transform:
             augmented = self.transform(image=image)

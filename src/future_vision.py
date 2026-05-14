@@ -6,6 +6,8 @@ from torchvision import models, transforms
 from PIL import Image
 import matplotlib.pyplot as plt
 from pathlib import Path
+import cv2
+from dataset import apply_shadow_eraser, get_texture_map
 
 class TextureVisionAnalyzer:
     def __init__(self, model_path="models/road_classifier.pth"):
@@ -36,8 +38,8 @@ class TextureVisionAnalyzer:
         h, w = img_cv.shape[:2]
 
         # 2️⃣ Pre-process (Shadow Eraser + Texture)
-        clean_img = self.apply_shadow_eraser(img_cv)
-        texture_img = self.get_texture_map(clean_img)
+        clean_img = apply_shadow_eraser(img_cv)
+        texture_img = get_texture_map(clean_img)
         
         # 3️⃣ Model Inference
         # Convert to Tensor for PyTorch
