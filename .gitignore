@@ -8,7 +8,7 @@
 *.webp
 *.svg
 *.ico
-kaggle.json
+*kaggle.json
 *__pycache__/
 *.pyc
 *.pyo
