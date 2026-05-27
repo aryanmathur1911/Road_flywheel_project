@@ -7,7 +7,7 @@ from PIL import Image
 import matplotlib.pyplot as plt
 from pathlib import Path
 import cv2
-from dataset import apply_shadow_eraser, get_texture_map
+from .data_file import apply_shadow_eraser, get_texture_map
 
 class TextureVisionAnalyzer:
     def __init__(self, model_path="models/road_classifier.pth"):
